@@ -52,7 +52,7 @@ function calculator(val) {
 
         // Clear last entry
     } else if (val == 'CE') {
-        temp = temp.slice(1, temp.length);
+        temp = temp.slice(0, temp.length -1);
         answer.value = temp;
     
         // if multiply is pressed
@@ -115,7 +115,3 @@ function calculator(val) {
     }
     
     }
-
-
-
-
