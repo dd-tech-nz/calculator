@@ -4,7 +4,7 @@ var temp = '';
 
 
 
-// loop through available button and assign onclick event listener and pass button value as argument
+// loop through available button and assign onclick event listener and pass button value as argument to calculator
 var buttons = document.getElementsByTagName('button');
 for (var i=0 ; i < buttons.length ; i++){
   (function(index){
@@ -20,7 +20,8 @@ function calculator(val) {
     var answer = document.getElementById("answer");
 
     // Got a number, add to temp
-    if (!isNaN(val) || val === '.') {
+   // if (!isNaN(val) || val === '.') {
+    if (!isNaN(val)) {
         temp += val;
         //console.log(temp);
         
@@ -28,6 +29,20 @@ function calculator(val) {
         answer.value = temp.substring(0, 10);
     
         // if AC pressed => clear everything
+    } else if (val == '.') {
+        if (temp.indexOf('.') == -1) {
+            temp += val;
+            answer.value = temp.substring(0, 10);
+        } else {
+            val = ''
+        }
+        //     answer.value = temp.substring(0, 10);
+        
+        //     // answer.value = '.'
+        //     // temp = temp.push(answer.value)
+        //     // answer.value = temp.substring(0, 10);
+        
+            
     } else if (val === 'AC') {
         entries = [];
         temp = '';
@@ -37,11 +52,19 @@ function calculator(val) {
 
         // Clear last entry
     } else if (val == 'CE') {
-        temp = '';
-        answer.value = '';
+        temp = temp.slice(1, temp.length);
+        answer.value = temp;
     
         // if multiply is pressed
         //store input field and the multiply symbol   
+    } else if (val == '%') {
+        var percent = parseInt(temp, 10) / 100;
+        //console.log(percent);
+        answer.value = percent;
+        entries.push(percent);
+        entries.push(val);
+        temp = '';
+
     } else if (val === 'x') {
         entries.push(temp);
         entries.push('*');
