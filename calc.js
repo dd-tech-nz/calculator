@@ -98,10 +98,7 @@ function calculator(val) {
             }
             i++;
         }
-        // swap the '-' symbol for input field
-        if (nt < 0) {
-            nt = Math.abs(nt) + '-';
-        }
+       
 
         answer.value = nt;
         console.log(nt)
