@@ -1,6 +1,6 @@
 var entries = [];
-var total = 0;
 var temp = '';
+
 
 // loop through available button and assign onclick event listener and pass button value as argument to calculator
 var buttons = document.getElementsByTagName('button');
@@ -29,23 +29,31 @@ function calculator(val) {
         backSpace(answer)
     } else if (val == '%') {
         calculatePercent(val, answer)
-    // Got equals sign pressed
+        // Got equals sign pressed
     } else if (val === '=') {
         getAnswer(answer)
+    
     } else {
-        storeInput(val)
+        storeInput(val, answer)
     }
    
 }
     
 function getAnswer(answer) {
+    
     entries.push(temp);
+    console.log(temp)
     var nt = parseFloat(entries[0]);
+   
+    if (entries.length < 3) {
+        entries.unshift(nt)
+    }
+    
     for (var i = 1; i < entries.length; i++) {
         var nextNum = parseFloat(entries.slice(-1)[0] );
         var symbol = entries[i];
         if (symbol === '+') {
-            nt += nextNum;
+           nt += nextNum;
         } else if (symbol === '-') {
             nt -= nextNum;
         } else if (symbol === '*') {
@@ -55,16 +63,20 @@ function getAnswer(answer) {
         }
         i++;
     }
+  
     updateMemory(nt, answer)
 }
 
-function storeInput(val) {
+function storeInput(val, answer) {
     entries.push(temp);
-    if (entries.indexOf('+') || entries.indexOf('-') || entries.indexOf('*') || entries.indexOf('/')) {
+    if (entries.indexOf('+') !== -1 || entries.indexOf('-') !== -1 || entries.indexOf('*') !== -1 || entries.indexOf('/') !== -1) {
         entries[1] = val;
+        entries[0] = getAnswer(answer)
         
-    } else {
+       // document.getElementById('answer').innerHTML = entries[0]
+        } else {
         entries.push(val)
+           
     }
     temp = '';
 }
@@ -86,7 +98,6 @@ function backSpace(answer) {
 function clearAll(answer) {
     entries = [];
     temp = '';
-    total = 0;
     answer.value = '';
 }
 
@@ -107,8 +118,11 @@ function updateDisplay(val, answer) {
 }
 
 function updateMemory(nt, answer) {
+    
     answer.value = parseFloat(nt.toFixed(10));
-    entries.pop()
-    entries.shift()
-    entries.unshift(nt);
+    entries = entries.slice(0, 2)
+    entries[0] = answer.value
+    
+    
+   
 }
